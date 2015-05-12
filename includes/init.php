@@ -35,7 +35,9 @@ $registry = new Registry;
 $registry->Config = new Config();
 
 // Create the database registry object
-$registry->DBase = new DBase($registry);
+if ($registry->Config->db->enable) {
+	$registry->DBase = new DBase($registry);
+}
 
 // Load the router
 $registry->Router = new Router($registry);

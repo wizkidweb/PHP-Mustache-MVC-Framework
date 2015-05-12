@@ -17,7 +17,8 @@ abstract class baseController {
 		// If AJAX
 		if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || isset($_POST['ajax'])) {
 			$this->onAjax();
-			$this->ajax_return();
+			die();
+			//$this->ajax_return();
 		}
 	}
 	

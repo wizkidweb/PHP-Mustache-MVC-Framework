@@ -43,6 +43,7 @@ class Template {
 	private function set_vars() {
 		// Set config vars
 		$this->vars['config'] = $this->registry->Config;
+		// Set basic globals
+		$this->vars['year'] = date("Y");
 	}
-	
 }

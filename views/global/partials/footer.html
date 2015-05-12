@@ -1,8 +1,10 @@
-		<footer class="footer">
+<footer class="footer">
 			<div class="container-fluid">
+				{{#config.site.showCopyright}}
 				<p class="text-muted">
-					Copyright &copy; 2015 Anthony Martin Web Design &amp; Development, LLC
+					Copyright &copy;{{year}} {{config.site.copyright}}
 				</p>
+				{{/config.site.showCopyright}}
 			</div>
 		</footer>
 	</body>
