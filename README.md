@@ -8,13 +8,16 @@ For example, if your page is called *about*, then the controller PHP file should
 
 Once you've created that file, create a class with the same name as your file, minus the word *class*, and extend the `baseController` class.
 
+```php
 	<?php
 	class aboutController extends baseController {
 		
 	}
+```
 	
 You are required to have only one method, called `index`, so you can add that now.
 
+```php
 	<?php
 	class aboutController extends baseController {
 		
@@ -23,10 +26,12 @@ You are required to have only one method, called `index`, so you can add that no
 		}
 		
 	}
+```
 
 Congratulations!  You've made a page using the PHP Mustache MVC Engine!  It doesn't do anything though.  Let's give it something to do.
 You can set template variables for the Mustache engine in the index method using `$this->registry->Template->foo = "bar"`.  Then initialize the chosen template with `$this->registry->Template->show('template_name')`.  That's all it takes!
 
+```php
 	<?php
 	class aboutController extends baseController {
 		
@@ -39,6 +44,7 @@ You can set template variables for the Mustache engine in the index method using
 		}
 		
 	}
+```
 	
 ### The Registry
 The Registry is a way for your MVC application to access many of the features of the PHP Mustache MVC.  It can be accessed in your controllers with `$this->registry`.  Database access, templating systems, models, configuration, and controller information is stored here.  You can add and remove things from the Registry, which allows the rest of the application to access them.
@@ -46,6 +52,7 @@ The Registry is a way for your MVC application to access many of the features of
 ## JavaScript access with AJAX
 This framework works hand-in-hand with JavaScript and AJAX, with each controller natively supporting AJAX POST calls.  To receive an AJAX call, simply add the `onAjax()` method to your controller class:
 
+```php
 	class aboutController extends baseController {
 		
 		// public function index() goes here
@@ -54,6 +61,7 @@ This framework works hand-in-hand with JavaScript and AJAX, with each controller
 			// Your code here
 		}
 	}
+```
 
 You can then access the `$_POST` variables associated with your AJAX call.  The `index()` method will not be called if an AJAX call is detected.
 
@@ -64,8 +72,10 @@ The `DBase` class has two methods: `Query()` and `NonQuery()`.  Use `Query()` if
 
 Both methods clean incoming variables, so if you want to pass a variable, use `?` in the query line, *s*, *i*, or *f* in the second parameter, and each variable as a separate parameter in left-to-right order following.  Here's an example of using NonQuery with this system:
 
+```php
 	$email = "test@example.com";
 	$qry = $this->registry->DBase->NonQuery("INSERT INTO users ('email') VALUES (?)", "s", $email);
+```
 
 With the `Query()` method, an array is returned with the values requested.
 
