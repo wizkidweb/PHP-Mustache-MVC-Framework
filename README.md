@@ -1,5 +1,7 @@
 This is an easy-to-use PHP MVC framework using the Mustache templating engine.  I created this framework to help me better create PHP web applications and dynamic websites in a quick and efficient manner.  I prefer it over other more powerful frameworks because it is simple, but not "magical" or too far away from "vanilla".
 
+Right now it's extremely basic, with no user account features or other general web-application features, but I will be adding them in due time.
+
 ## Adding Pages
 It's easy to add a page to your MVC website system.  Simply create a PHP document in the **controller** folder with the name of your page, appended with *Controller.class.php*.
 For example, if your page is called *about*, then the controller PHP file should be called `aboutController.class.php`.
