@@ -1,5 +1,7 @@
 This is an easy-to-use PHP MVC framework using the Mustache templating engine.  I created this framework to help me better create PHP web applications and dynamic websites in a quick and efficient manner.  I prefer it over other more powerful frameworks because it is simple, but not "magical" or too far away from "vanilla".
 
+Database and basic site configuration is in **app/config.class.php**
+
 Right now it's extremely basic, with no user account features or other general web-application features, but I will be adding them in due time.
 
 ## Adding Pages
