@@ -6,6 +6,8 @@ class error404Controller extends baseController {
 			array("url" => "404.css")
 		);
 		
+		$this->registry->Template->page_title = "Page Not Found";
+		
 		$this->registry->Template->show("error404");
 	}
 	

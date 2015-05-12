@@ -5,6 +5,8 @@ include __SITE_PATH . '/app/registry.class.php';
 include __SITE_PATH . '/app/router.class.php';
 include __SITE_PATH . '/app/template.class.php';
 include __SITE_PATH . '/app/config.class.php';
+include __SITE_PATH . '/app/dbase.class.php';
+include __SITE_PATH . '/app/account.class.php';
 
 function __autoload($class_name) {
 	$filename = strtolower($class_name) . '.class.php';
@@ -38,6 +40,9 @@ $registry->Config = new Config();
 if ($registry->Config->db->enable) {
 	$registry->DBase = new DBase($registry);
 }
+
+// Load the account engine
+$registry->Account = new Account($registry);
 
 // Load the router
 $registry->Router = new Router($registry);

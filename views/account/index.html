@@ -1,0 +1,14 @@
+{{> header}}
+<div class="container">
+	{{#logged_in}}
+	<h1>
+		Account Settings
+	</h1>
+	{{/logged_in}}
+	{{^logged_in}}
+	<h1>
+		Sign In
+	</h1>
+	{{/logged_in}}
+</div>
+{{> footer}}
