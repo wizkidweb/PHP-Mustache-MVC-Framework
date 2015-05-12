@@ -42,6 +42,13 @@ class aboutController extends baseController {
 	
 }
 ```
+
+### Mustache Templating Engine
+This framework uses the Mustache templating engine.  To learn more about it, go to this link: https://mustache.github.io/mustache.5.html
+
+The template files are located in the **views** folder.  Each template name that can be called from the `show()` method described above has its own folder.  For example, the `index` template is located in the **views/index/** folder.  To create a new template, simply add a folder with the name of your template, and place a file named `index.html` inside.  Call the folder name with the `show()` function, and the Mustache templating engine will parse your template.
+
+I won't describe in-depth all of the features of Mustache (see link above), but there are some added features from the PHP Mustache MVC Framework.  One is global partials.  Each template can have as many partials as you want, but the partials located in **views/global/partials/** can be accessed by any template.  By default, the globals are a header and footer that include the jQuery and Bootstrap libraries and stylesheets.
 	
 ### The Registry
 The Registry is a way for your MVC application to access many of the features of the PHP Mustache MVC.  It can be accessed in your controllers with `$this->registry`.  Database access, templating systems, models, configuration, and controller information is stored here.  You can add and remove things from the Registry, which allows the rest of the application to access them.
@@ -78,6 +85,3 @@ With the `Query()` method, an array is returned with the values requested.
 
 ## Models
 You can add your own classes as models to interpret data from the database or add additional functionality.  To do so, simply add your model class to the `model` folder, and append it with `.class.php`.  For example, if you have a model class called `myModel`, the file would be `myModel.class.php`.  It will automatically be added to the registry for use in your controllers.
-
-## Mustache Templating Engine
-This framework uses the Mustache templating engine.  To learn more about it, go to this link: https://mustache.github.io/mustache.5.html
