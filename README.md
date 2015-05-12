@@ -9,7 +9,6 @@ For example, if your page is called *about*, then the controller PHP file should
 Once you've created that file, create a class with the same name as your file, minus the word *class*, and extend the `baseController` class.
 
 ```php
-<?php
 class aboutController extends baseController {
 	
 }
@@ -18,7 +17,6 @@ class aboutController extends baseController {
 You are required to have only one method, called `index`, so you can add that now.
 
 ```php
-<?php
 class aboutController extends baseController {
 	
 	public function index() {
@@ -32,7 +30,6 @@ Congratulations!  You've made a page using the PHP Mustache MVC Engine!  It does
 You can set template variables for the Mustache engine in the index method using `$this->registry->Template->foo = "bar"`.  Then initialize the chosen template with `$this->registry->Template->show('template_name')`.  That's all it takes!
 
 ```php
-<?php
 class aboutController extends baseController {
 	
 	public function index() {
