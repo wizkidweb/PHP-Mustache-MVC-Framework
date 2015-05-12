@@ -1,7 +1,7 @@
 <?php
 /*
  * PHP MVC Configuration File
- * v0.5
+ * v0.51
  * ALPHA BUILD
  */
 
