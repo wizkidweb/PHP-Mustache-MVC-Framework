@@ -37,12 +37,14 @@ $registry = new Registry;
 $registry->Config = new Config();
 
 // Create the database registry object
-if ($registry->Config->db->enable) {
+if ($registry->Config->db->enable || $registry->Config->account->enable) {
 	$registry->DBase = new DBase($registry);
 }
 
 // Load the account engine
-$registry->Account = new Account($registry);
+if ($registry->Config->account->enable) {
+	$registry->Account = new Account($registry);
+}
 
 // Load the router
 $registry->Router = new Router($registry);

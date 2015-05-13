@@ -1,4 +1,4 @@
-#### v0.51 ALPHA
+#### v0.58 ALPHA
 This is an easy-to-use PHP MVC framework using the Mustache templating engine.  I created this framework to help me better create PHP web applications and dynamic websites in a quick and efficient manner.  I prefer it over other more powerful frameworks because it is simple, but not "magical" or too far away from "vanilla".
 
 Database and basic site configuration is in **app/config.class.php**
@@ -88,3 +88,6 @@ With the `Query()` method, an array is returned with the values requested.
 
 ## Models
 You can add your own classes as models to interpret data from the database or add additional functionality.  To do so, simply add your model class to the `model` folder, and append it with `.class.php`.  For example, if you have a model class called `myModel`, the file would be `myModel.class.php`.  When you want to use the class in your controller, it will be autoloaded when you instantiate it.
+
+## Account Management
+This framework includes MySQL user account management.  **This is currently not working.  Coming in next commit**

@@ -3,13 +3,12 @@ class accountController extends baseController {
 	
 	private $account;
 	
-	function __construct($registry) {
-		parent::__construct($registry);
-		//$this->account = new Account();
-	}
-	
 	public function index() {
 		$this->registry->Template->page_title = "Account";
+
+		if (!$this->registry->Account->login_check()) {
+			header("Location: /account/login");
+		}
 		
 		// Load the index template
 		$this->registry->Template->show('account');
@@ -18,8 +17,27 @@ class accountController extends baseController {
 	function logout() {
 		$this->registry->Template->page_title = "Log Out";
 		
-		// $this->account->logout();
 		header("Location: /");
+	}
+
+	function login() {
+
+		$this->registry->Template->logged_in = $this->registry->Account->login_check();
+
+		$this->registry->Template->page_title = "Sign In";
+		$this->registry->Template->showLogin = true;
+
+		$this->registry->Template->show('account');
+	}
+
+	function register() {
+
+		$this->registry->Template->logged_in = $this->registry->Account->login_check();
+
+		$this->registry->Template->page_title = "Register New Account";
+		$this->registry->Template->showRegister = true;
+
+		$this->registry->Template->show('account');
 	}
 	
 }

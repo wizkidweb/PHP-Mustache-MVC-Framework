@@ -45,7 +45,5 @@ class Template {
 		$this->vars['config'] = $this->registry->Config;
 		// Set basic globals
 		$this->vars['year'] = date("Y");
-		// Set account globals
-		$this->vars['logged_in'] = $this->registry->Account->check_login();
 	}
 }

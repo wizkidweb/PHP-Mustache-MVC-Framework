@@ -1,7 +1,7 @@
 <?php
 /*
  * PHP MVC Configuration File
- * v0.51
+ * v0.58
  * ALPHA BUILD
  */
 
@@ -23,10 +23,12 @@ class Config {
 		$this->db->enable = true;
 		$this->db->server = 'localhost'; // MySQL Database Server
 		$this->db->user = 'root'; // MySQL Database User
-		$this->db->pass = ''; // MySQL Database Password
-		$this->db->database = 'php_mvc'; // MySQL Database Name
+		$this->db->pass = 'root'; // MySQL Database Password
+		$this->db->database = 'mvc'; // MySQL Database Name
 		
-		$this->account->fb_enable = false;
+		$this->account->enable = true;
+		$this->account->session_name = "PHP_Mustache_MVC";
+		$this->account->secure = false;
 	}
 	
 }
