@@ -1,8 +1,6 @@
 <?php
 class accountController extends baseController {
-	
-	private $account;
-	
+		
 	public function index() {
 		$this->registry->Template->page_title = "Account";
 
@@ -20,9 +18,12 @@ class accountController extends baseController {
 		header("Location: /");
 	}
 
-	function login() {
-
+	function login() {		
 		$this->registry->Template->logged_in = $this->registry->Account->login_check();
+		$this->registry->Template->js = array(
+			array("url" => "js/sha512.js"),
+			array("url" => "js/account_forms.js")
+		);
 
 		$this->registry->Template->page_title = "Sign In";
 		$this->registry->Template->showLogin = true;
@@ -31,13 +32,44 @@ class accountController extends baseController {
 	}
 
 	function register() {
-
 		$this->registry->Template->logged_in = $this->registry->Account->login_check();
+		$this->registry->Template->js = array(
+			array("url" => "js/sha512.js"),
+			array("url" => "js/account_forms.js")
+		);
 
 		$this->registry->Template->page_title = "Register New Account";
 		$this->registry->Template->showRegister = true;
 
 		$this->registry->Template->show('account');
+	}
+	
+	function onAjax() {
+		if (isset($_POST['action'])) {
+			if ($_POST['action'] == 'login') {
+				if ($this->registry->Account->process_login()) {
+					$this->ajax_return(array(
+						"success" => true
+					));
+				} else {
+					$this->ajax_return(array(
+						"success" => false
+					));
+				}
+			}
+			if ($_POST['action'] == 'register') {
+				if ($this->registry->Account->process_register()) {
+					$this->ajax_return(array(
+						"success" => true
+					));
+				} else {
+					$this->ajax_return(array(
+						"success" => false
+					));
+				}
+			}
+		}
+		$this->ajax_return("ERROR");
 	}
 	
 }

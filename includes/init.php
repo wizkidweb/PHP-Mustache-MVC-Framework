@@ -7,6 +7,8 @@ include __SITE_PATH . '/app/template.class.php';
 include __SITE_PATH . '/app/config.class.php';
 include __SITE_PATH . '/app/dbase.class.php';
 include __SITE_PATH . '/app/account.class.php';
+include __SITE_PATH . '/app/log.class.php';
+include __SITE_PATH . '/app/lang.class.php';
 
 function __autoload($class_name) {
 	$filename = strtolower($class_name) . '.class.php';
@@ -40,6 +42,12 @@ $registry->Config = new Config();
 if ($registry->Config->db->enable || $registry->Config->account->enable) {
 	$registry->DBase = new DBase($registry);
 }
+
+// Load the logger
+$registry->Log = new Log($registry);
+
+// Load language
+$registry->Lang = new Lang($registry);
 
 // Load the account engine
 if ($registry->Config->account->enable) {

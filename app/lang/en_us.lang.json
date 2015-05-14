@@ -1,0 +1,15 @@
+/*
+PHP Mustache MVC Language File
+Lang: EN_US
+Use this for repeatable 
+*/
+{
+	// Errors
+	"E_ACCOUNT_LOCKED": "Account is locked.",
+	"E_INCORRECT_PASSWORD": "Password is incorrect",
+	"E_NO_USER_FOUND": "Sorry, that user could not be found.",
+	"E_EMAIL_INVALID": "The email provided is invalid.",
+	"E_PASSWORD_INVALID": "The password provided is invalid",
+	"E_EMAIL_EXISTS": "A user with this email address already exists.",
+	"E_USERNAME_EXISTS": "A user with this username already exists."
+}

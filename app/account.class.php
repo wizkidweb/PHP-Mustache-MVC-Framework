@@ -3,19 +3,21 @@ class Account {
 	
 	protected $registry;
 	private $db;
+	private $lang;
 	
 	function __construct($registry) {
 		$this->registry = $registry;
 		$this->db = $this->registry->DBase;
+		$this->lang = $this->registry->Lang;
 	}
 
-	function sec_session_start() {
+	private function sec_session_start() {
 		$session_name = $this->registry->Config->account->session_name;
 		$secure = $this->registry->Config->account->secure;
 		// Stops JavaScript access of session id
 		$httponly = true;
 		// Forces session to use cookies
-		if (init_set('session.use_only_cookies', 1) === false) {
+		if (ini_set('session.use_only_cookies', 1) === false) {
 			header("Location: /?error=Could not initiate a safe session (ini_set)");
 			exit();
 		}
@@ -27,8 +29,8 @@ class Account {
 		session_regenerate_id(true);
 	}
 	
-	function login($email, $password) {
-		$qry = $this->db->SingleQuery("SELECT id, username, password, salt FROM members WHERE email = ? LIMIT 1", 's', $email);
+	private function login($email, $password) {
+		$qry = $this->db->Query("SELECT id, username, password, salt FROM members WHERE email = ? LIMIT 1", 's', $email);
 		if ($qry) {
 			$user_id = $qry[0]['id'];
 			$username = $qry[0]['username'];
@@ -38,6 +40,7 @@ class Account {
 			if (count($qry) == 1) {
 				if ($this->checkbrute($user_id) == true) { // Check if too many login attempts
 					// Account is locked
+					$this->registry->Log->error($this->lang->E_ACCOUNT_LOCKED);
 					return false;
 				} else {
 					// Check for matching passwords
@@ -58,11 +61,14 @@ class Account {
 						// Record attempt in DB
 						$now = time();
 						$qry = $this->db->NonQuery("INSERT INTO login_attempts (user_id, time) VALUES (?, ?)", "is", $user_id, $now);
+						$this->registry->Log->error($this->lang->E_INCORRECT_PASSWORD);
 						return false;
 					}
 				}
 			} else {
 				// No user exists
+				$this->registry->Log->error($this->lang->E_NO_USER_FOUND);
+				$this->registry->Log->console("Login Error: No User found with email: ".$email);
 				return false;
 			}
 		}
@@ -108,7 +114,7 @@ class Account {
 		}
 	}
 
-	function login_check() {
+	public function login_check() {
 		// Check for all session variables
 		if (isset($_SESSION['user_id'], $_SESSION['username'], $_SESSION['login_string'])) {
 			$user_id = $_SESSION['user_id'];
@@ -140,7 +146,7 @@ class Account {
 		}
 	}
 
-	function process_login() {
+	public function process_login() {
 		$this->sec_session_start();
 
 		if (isset($_POST['email'], $_POST['p'])) {
@@ -159,8 +165,27 @@ class Account {
 			return false;
 		}
 	}
+	
+	public function process_register() {
+		if (isset($_POST['user'], $_POST['email'], $_POST['p'])) {
+			$user = $_POST['user'];
+			$email = $_POST['email'];
+			$p = $_POST['p'];
+			
+			if ($this->register($user, $email, $p)) {
+				// Register success
+				return true;
+			} else {
+				// Register failed
+				return false;
+			}
+		} else {
+			// Invalid Request
+			return false;
+		}
+	}
 
-	function logout() {
+	public function logout() {
 		$this->sec_session_start();
 
 		// Unset all session values
@@ -175,19 +200,21 @@ class Account {
 		return true;
 	}
 
-	function register($username, $email, $p) {
+	private function register($username, $email, $p) {
 		$username = filter_var($username, FILTER_SANITIZE_STRING);
 		$email = filter_var($email, FILTER_SANITIZE_EMAIL);
 		$email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			// Invalid Email
+			$this->registry->Log->error($this->lang->E_EMAIL_INVALID);
 			return false;
 		}
 
 		$password = filter_var($p, FILTER_SANITIZE_STRING);
 		if (strlen($password) != 128) {
 			// Invalid Password Hash
+			$this->registry->Log->error($this->lang->E_PASSWORD_INVALID);
 			return false;
 		}
 
@@ -195,6 +222,7 @@ class Account {
 		$qry = $this->db->Query("SELECT id FROM members WHERE email = ? LIMIT 1", 's', $email);
 		if (count($qry) == 1) {
 			// A user with this email already exists
+			$this->registry->Log->error($this->lang->E_EMAIL_EXISTS);
 			return false;
 		}
 
@@ -202,6 +230,7 @@ class Account {
 		$qry = $this->db->Query("SELECT id FROM members WHERE username = ? LIMIT 1", 's', $username);
 		if (count($qry) == 1) {
 			// A user with this username already exists
+			$this->registry->Log->error($this->lang->E_USERNAME_EXISTS);
 			return false;
 		}
 

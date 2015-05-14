@@ -30,10 +30,23 @@ abstract class baseController {
 	
 	/* Ajax Functions */
 	function ajax_return($x="") {
-		if (is_string($x)) {
-			die(json_encode(array($x)));
+		if (ENVIRONMENT == "development") {
+			if (is_string($x)) {
+				$msg = array();
+				$msg[] = $x;
+			} else {
+				$msg = $x;
+			}
+			$msg["php_console"] = $this->registry->Log->return_console();
+			if ($this->registry->Log->return_errors())
+				$msg["errors"] = $this->registry->Log->return_errors();
+			die(json_encode($msg));
 		} else {
-			die(json_encode($x));
+			if (is_string($x)) {
+				die(json_encode(array($x)));
+			} else {
+				die(json_encode($x));
+			}
 		}
 	}
 }

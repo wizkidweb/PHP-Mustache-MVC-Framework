@@ -1,4 +1,4 @@
-#### v0.58 ALPHA
+#### v0.6 ALPHA
 This is an easy-to-use PHP MVC framework using the Mustache templating engine.  I created this framework to help me better create PHP web applications and dynamic websites in a quick and efficient manner.  I prefer it over other more powerful frameworks because it is simple, but not "magical" or too far away from "vanilla".
 
 Database and basic site configuration is in **app/config.class.php**
@@ -89,5 +89,19 @@ With the `Query()` method, an array is returned with the values requested.
 ## Models
 You can add your own classes as models to interpret data from the database or add additional functionality.  To do so, simply add your model class to the `model` folder, and append it with `.class.php`.  For example, if you have a model class called `myModel`, the file would be `myModel.class.php`.  When you want to use the class in your controller, it will be autoloaded when you instantiate it.
 
+## Logging System
+The PHP Mustache MVC framework includes a custom logging system, which allows you to log messages and errors in a .txt file or on the MySQL database (it will default to the MySQL database if you have it enabled).  You can log a message using the following command:
+
+```php
+$this->registry->Log->add("Lorem Ipsum Dolor Sit Amet");
+```
+
+In addition to basic database/text logging, the logger includes a way to see errors in the console when using AJAX calls.  As long as `ENVIRONMENT` in `index.php` is set to `development`, it will automatically add the console commands to your return value.  Use the following command to push to the AJAX console:
+
+```php
+$this->registry->Log->console("Lorem Ipsum Dolor Sit Amet");
+```
+
 ## Account Management
-This framework includes MySQL user account management.  **This is currently not working.  Coming in next commit**
+This framework includes MySQL user account management.
+**This is currently not working.  Coming soon**

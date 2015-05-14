@@ -1,7 +1,7 @@
 <?php
 /*
  * PHP MVC Configuration File
- * v0.58
+ * v0.6
  * ALPHA BUILD
  */
 
@@ -23,7 +23,7 @@ class Config {
 		$this->db->enable = true;
 		$this->db->server = 'localhost'; // MySQL Database Server
 		$this->db->user = 'root'; // MySQL Database User
-		$this->db->pass = 'root'; // MySQL Database Password
+		$this->db->pass = ''; // MySQL Database Password
 		$this->db->database = 'mvc'; // MySQL Database Name
 		
 		$this->account->enable = true;
