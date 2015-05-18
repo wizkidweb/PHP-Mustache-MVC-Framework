@@ -1,7 +1,7 @@
 /*
 PHP Mustache MVC Language File
 Lang: EN_US
-Use this for repeatable 
+Use this for translateable phrases and strings
 */
 {
 	// Errors
@@ -13,3 +13,7 @@ Use this for repeatable
 	"E_EMAIL_EXISTS": "A user with this email address already exists.",
 	"E_USERNAME_EXISTS": "A user with this username already exists."
 }
+/*
+Don't worry about using comments in this file.  Before decoding the JSON,
+the framework strips the comments.
+*/

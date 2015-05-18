@@ -34,8 +34,11 @@ class Log {
 		return false;
 	}
 	
-	public function console($msg) {
-		$this->jsconsole[] = $msg;
+	public function console() {
+		$args = func_get_args();
+		for ($i = 0; $i < count($args); $i++) {
+			$this->jsconsole[] = $args[$i];
+		}
 	}
 	
 	public function return_console() {

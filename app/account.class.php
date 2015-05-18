@@ -7,36 +7,42 @@ class Account {
 	
 	function __construct($registry) {
 		$this->registry = $registry;
+		$this->sec_session_start();
 		$this->db = $this->registry->DBase;
 		$this->lang = $this->registry->Lang;
 	}
 
 	private function sec_session_start() {
-		$session_name = $this->registry->Config->account->session_name;
-		$secure = $this->registry->Config->account->secure;
-		// Stops JavaScript access of session id
-		$httponly = true;
-		// Forces session to use cookies
-		if (ini_set('session.use_only_cookies', 1) === false) {
-			header("Location: /?error=Could not initiate a safe session (ini_set)");
-			exit();
+		if (session_id() == '' || !isset($_SESSION)) {
+			$session_name = $this->registry->Config->account->session_name;
+			$secure = $this->registry->Config->account->secure;
+			// Stops JavaScript access of session id
+			$httponly = true;
+			// Forces session to use cookies
+			if (ini_set('session.use_only_cookies', 1) === false) {
+				header("Location: /?error=Could not initiate a safe session (ini_set)");
+				exit();
+			}
+			// Get cookie params
+			$cookieParams = session_get_cookie_params();
+			session_set_cookie_params($cookieParams['lifetime'], $cookieParams['path'], $cookieParams['domain'], $secure, $httponly);
+			session_name($session_name);
+			session_start();
+			session_regenerate_id(true);
 		}
-		// Get cookie params
-		$cookieParams = session_get_cookie_params();
-		session_set_cookie_params($cookieParams['lifetime'], $cookieParams['path'], $cookieParams['domain'], $secure, $httponly);
-		session_name($session_name);
-		session_start();
-		session_regenerate_id(true);
 	}
 	
 	private function login($email, $password) {
 		$qry = $this->db->Query("SELECT id, username, password, salt FROM members WHERE email = ? LIMIT 1", 's', $email);
 		if ($qry) {
+			$this->registry->Log->console($qry);
 			$user_id = $qry[0]['id'];
 			$username = $qry[0]['username'];
 			$db_password = $qry[0]['password'];
 			$salt = $qry[0]['salt'];
-
+			
+			$password = hash('sha512', $password.$salt);
+			
 			if (count($qry) == 1) {
 				if ($this->checkbrute($user_id) == true) { // Check if too many login attempts
 					// Account is locked
@@ -124,9 +130,9 @@ class Account {
 			// Get user-agent string
 			$user_browser = $_SERVER['HTTP_USER_AGENT'];
 
-			$qry = $this->db->Query("SELECT password FROM members WHERE id = ? LIMIT 1", 'i', $user_id);
+			$qry = $this->db->Query("SELECT password,salt FROM members WHERE id = ? LIMIT 1", 'i', $user_id);
 			if (count($qry) == 1) {
-				$password = $qry[0]['password'];
+				$password = hash('sha512', $qry[0]['password'].$qry[0]['salt']);
 				$login_check = hash('sha512', $password . $user_browser);
 
 				if ($login_check == $login_string) {
@@ -147,7 +153,6 @@ class Account {
 	}
 
 	public function process_login() {
-		$this->sec_session_start();
 
 		if (isset($_POST['email'], $_POST['p'])) {
 			$email = $_POST['email'];
@@ -186,7 +191,6 @@ class Account {
 	}
 
 	public function logout() {
-		$this->sec_session_start();
 
 		// Unset all session values
 		$_SESSION = array();

@@ -1,26 +1,34 @@
 var Functions = {
-	lang: "en_us",
 	init: function() {
 		var f = this;
-		// Setup Lang
-		$.getJSON("app/lang/"+this.lang+".lang.json", function(json) {
-			f.lang = json;
-			$(function() {
-				f.alert = function(msg) {
-					var $a = $("<div/>"),
-						$b = $("<button/>");
-					$a.addClass('alert').addClass('alert-warning').addClass('alert-dismissable');
-					$a.attr('role', 'alert');
-					$a.html(msg);
-
-					$b.addClass('close');
-					$b.attr('type','button').attr('data-dismiss', 'alert').attr('aria-label', 'Close');
-					$b.html('<span aria-hidden="true">&times;</span>');
-
-					$a.prepend($b);
-					$("#alerts").append($a);
-				};
-			});
+		this.php_ajax("getLang", function(data) {
+			f.lang = data;
+		});
+	},
+	php_ajax: function(action, data, callback) {
+		if ($.isFunction(data)) {
+			callback = data;
+		}
+		data = data || {};
+		callback = callback || function(d){
+			console.log(d);
+		};
+		var ajaxdata = {};
+		ajaxdata.action = action;
+		$.each(data, function(index,value) {
+			ajaxdata[index] = value;
+		});
+		$.ajax({
+			url: window.location.href,
+			type: "POST",
+			data: ajaxdata,
+			dataType: "json"
+		}).done(function(data) {
+			callback(data);
+		}).error(function(jqXHR, textStatus, errorThrown) {
+			console.error(jqXHR.responseText, jqXHR);
 		});
 	}
 };
+
+Functions.init();

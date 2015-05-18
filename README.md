@@ -87,7 +87,25 @@ $qry = $this->registry->DBase->NonQuery("INSERT INTO users ('email') VALUES (?)"
 With the `Query()` method, an array is returned with the values requested.
 
 ## Models
-You can add your own classes as models to interpret data from the database or add additional functionality.  To do so, simply add your model class to the `model` folder, and append it with `.class.php`.  For example, if you have a model class called `myModel`, the file would be `myModel.class.php`.  When you want to use the class in your controller, it will be autoloaded when you instantiate it.
+You can add your own classes as models to interpret data from the database or add additional functionality.  To do so, simply add your model class to the `model` folder, and append it with `.class.php`.  For example, if you have a model class called `myModel`, the file would be `myModel.class.php`.  When you want to use the class in your controller, it will be autoloaded when you instantiate it.  It is recommended to include the registry in your model so you can access the various systems of PHP Mustache MVC.  Below is an example of doing so:
+
+####myModel.class.php
+```php
+class myModel {
+	protected $registry;
+	
+	function __construct($registry) {
+		$this->registry = $registry;
+	}
+}
+```
+
+####xyzController.class.php
+```php
+/* Your Code */
+$myModel = new myModel($this->registry);
+/* Your Code */
+```
 
 ## Logging System
 The PHP Mustache MVC framework includes a custom logging system, which allows you to log messages and errors in a .txt file or on the MySQL database (it will default to the MySQL database if you have it enabled).  You can log a message using the following command:
@@ -100,6 +118,21 @@ In addition to basic database/text logging, the logger includes a way to see err
 
 ```php
 $this->registry->Log->console("Lorem Ipsum Dolor Sit Amet");
+```
+
+## Language System
+PHP Mustache MVC incorporates a language switching system, where repeatable phrases are placed into a language file located at `app/lang/{code}.lang.json`, where `{code}` is your language code (it defaults to `en_us`).
+
+```json
+{
+	"HELLO": "Hello World!"
+}
+```
+
+If the above code is your language file, you can access the `HELLO` property with the `Lang` class in the registry:
+
+```php
+$this->registry->Lang->HELLO;
 ```
 
 ## Account Management

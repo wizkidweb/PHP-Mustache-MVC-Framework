@@ -18,7 +18,7 @@ $(function() {
 		}).done(function(data) {
 			console.log(data);
 			if (data.success) {
-				console.log("Success!");
+				window.location.href = "/";
 			} else {
 				$("input", $this).val('');
 				$("input,button", $this).prop('disabled',false);

@@ -13,8 +13,7 @@ class accountController extends baseController {
 	}
 	
 	function logout() {
-		$this->registry->Template->page_title = "Log Out";
-		
+		$this->registry->Account->logout();
 		header("Location: /");
 	}
 
@@ -69,7 +68,8 @@ class accountController extends baseController {
 				}
 			}
 		}
-		$this->ajax_return("ERROR");
+		$this->registry->Log->error("AJAX `action` POST value not found.");
+		$this->ajax_return("Ajax Error");
 	}
 	
 }

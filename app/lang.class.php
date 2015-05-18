@@ -18,7 +18,7 @@ class Lang {
 	private function getTerms() {
 		$file = file_get_contents(__SITE_PATH . '/app/lang/'.$this->lang.'.lang.json');
 		$this->terms = $this->json_clean_decode($file);
-		$this->registry->Log->console($this->terms);
+		//$this->registry->Log->console($this->terms);
 	}
 	
 	private function json_clean_decode($json, $assoc = false, $depth = 512, $options = 0) {
@@ -36,7 +36,10 @@ class Lang {
 	}
 	
 	public function __get($index) {
-		$this->registry->Log->console($this->terms);
-		return $this->terms[$index];
+		return $this->terms->$index;
+	}
+	
+	public function termsArr() {
+		return get_object_vars($this->terms);
 	}
 }

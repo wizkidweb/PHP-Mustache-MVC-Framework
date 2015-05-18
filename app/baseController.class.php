@@ -16,6 +16,7 @@ abstract class baseController {
 		
 		// If AJAX
 		if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || isset($_POST['ajax'])) {
+			$this->baseAjax();
 			$this->onAjax();
 			die();
 			//$this->ajax_return();
@@ -29,7 +30,25 @@ abstract class baseController {
 	
 	
 	/* Ajax Functions */
-	function ajax_return($x="") {
+	private function baseAjax() {
+		if (isset($_POST['action'])) {
+			switch ($_POST['action']) {
+				case "getLang":
+					$this->ajax_return($this->registry->Lang->termsArr(), false);
+				break;
+				case "checkLogin":
+					$this->ajax_return(array(
+						"logged_in" => $this->registry->Account->login_check()
+					));
+				break;
+				case "getSession":
+					$this->ajax_return($_SESSION);
+				break;
+			}
+		}
+	}
+	
+	function ajax_return($x="", $console = true) {
 		if (ENVIRONMENT == "development") {
 			if (is_string($x)) {
 				$msg = array();
@@ -37,7 +56,7 @@ abstract class baseController {
 			} else {
 				$msg = $x;
 			}
-			$msg["php_console"] = $this->registry->Log->return_console();
+			if ($console) $msg["php_console"] = $this->registry->Log->return_console();
 			if ($this->registry->Log->return_errors())
 				$msg["errors"] = $this->registry->Log->return_errors();
 			die(json_encode($msg));
