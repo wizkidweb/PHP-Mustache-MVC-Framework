@@ -7,12 +7,6 @@ abstract class baseController {
 	
 	function __construct($registry) {
 		$this->registry = $registry;
-		// Set directory options
-		$dir = new StdClass();
-		$dir->views = "/views";
-		$dir->view = $dir->views . "/" . $this->registry->Router->controller;
-		
-		$this->registry->Template->dir = $dir;
 		
 		// If AJAX
 		if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || isset($_POST['ajax'])) {
@@ -32,17 +26,21 @@ abstract class baseController {
 	/* Ajax Functions */
 	private function baseAjax() {
 		if (isset($_POST['action'])) {
+			if (ENVIRONMENT == "development") {
+				switch ($_POST['action']) {
+					case "getLang":
+						$this->ajax_return($this->registry->Lang->termsArr(), false);
+					break;
+					case "getSession":
+						$this->ajax_return($_SESSION);
+					break;
+				}
+			}
 			switch ($_POST['action']) {
-				case "getLang":
-					$this->ajax_return($this->registry->Lang->termsArr(), false);
-				break;
 				case "checkLogin":
 					$this->ajax_return(array(
-						"logged_in" => $this->registry->Account->login_check()
+						"logged_in" => $this->registry->Account->logged_in
 					));
-				break;
-				case "getSession":
-					$this->ajax_return($_SESSION);
 				break;
 			}
 		}

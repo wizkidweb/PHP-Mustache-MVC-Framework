@@ -19,6 +19,7 @@ class Template {
 	}
 	
 	function show($name,$action = 'index') {
+		//die("<pre>".print_r($this->vars,true)."</pre>");
 		
 		$filepath = __SITE_PATH . '/views/' . $name . '/' . $action . '.html';
 		$dirpath = __SITE_PATH . '/views/' . $name;
@@ -45,5 +46,17 @@ class Template {
 		$this->vars['config'] = $this->registry->Config;
 		// Set basic globals
 		$this->vars['year'] = date("Y");
+		// Set directory options
+		$dir = new StdClass();
+		$dir->views = "/views";
+		$dir->view = $dir->views . "/" . $this->registry->Router->controller;
+		//die("<pre>".print_r($this->registry->Router,true)."</pre>");
+		$this->vars['dir'] = $dir;
+		// Set account globals
+		if ($this->registry->Config->account->enable) {
+			$user = new StdClass();
+			$user->logged_in = $this->registry->Account->logged_in;
+			$this->vars['user'] = $user;
+		}
 	}
 }

@@ -4,12 +4,14 @@ class Account {
 	protected $registry;
 	private $db;
 	private $lang;
+	public $logged_in;
 	
 	function __construct($registry) {
 		$this->registry = $registry;
 		$this->sec_session_start();
 		$this->db = $this->registry->DBase;
 		$this->lang = $this->registry->Lang;
+		$this->logged_in = $this->login_check();
 	}
 
 	private function sec_session_start() {
@@ -51,6 +53,10 @@ class Account {
 				} else {
 					// Check for matching passwords
 					if ($db_password == $password) {
+						if (session_id() == '' || !isset($_SESSION)) {
+							$this->registry->Log->error("Session not started.");
+							return false;
+						}
 						// Password is correct
 						$user_browser = $_SERVER['HTTP_USER_AGENT'];
 						// XSS protection
@@ -130,23 +136,26 @@ class Account {
 			// Get user-agent string
 			$user_browser = $_SERVER['HTTP_USER_AGENT'];
 
-			$qry = $this->db->Query("SELECT password,salt FROM members WHERE id = ? LIMIT 1", 'i', $user_id);
+			$qry = $this->db->Query("SELECT password FROM members WHERE id = ? LIMIT 1", 'i', $user_id);
 			if (count($qry) == 1) {
-				$password = hash('sha512', $qry[0]['password'].$qry[0]['salt']);
+				$password = $qry[0]['password'];
 				$login_check = hash('sha512', $password . $user_browser);
 
 				if ($login_check == $login_string) {
 					// Logged in
 					return true;
 				} else {
+					$this->registry->Log->console("check =/= string", $login_check, $login_string);
 					// Not logged in
 					return false;
 				}
 			} else {
+				$this->registry->Log->console("count(qry) =/= 1", $qry);
 				// Not logged in
 				return false;
 			}
 		} else {
+			$this->registry->Log->console("session not set", $_SESSION);
 			// Not logged in
 			return false;
 		}
@@ -249,4 +258,22 @@ class Account {
 		return true;
 	}
 	
+	public function get_this_user_data() {
+		if ($this->logged_in) {
+			$user = $_SESSION['user_id'];
+			$cols = func_get_args();
+			$colstr = "";
+			for ($i = 0; $i < count($cols); $i++) {
+				$colstr .= $cols[$i];
+				if ($i !== count($cols)-1) $colstr .= ",";
+			}
+			$qry = $this->db->Query("SELECT ".$colstr." FROM members WHERE id = ?", "i", $user);
+			if ($qry) {
+				return $qry;
+			} else {
+				return false;
+			}
+		}
+		return false;
+	}
 }

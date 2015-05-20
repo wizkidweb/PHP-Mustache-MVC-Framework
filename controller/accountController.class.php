@@ -4,7 +4,7 @@ class accountController extends baseController {
 	public function index() {
 		$this->registry->Template->page_title = "Account";
 
-		if (!$this->registry->Account->login_check()) {
+		if (!$this->registry->Account->logged_in) {
 			header("Location: /account/login");
 		}
 		
@@ -18,7 +18,6 @@ class accountController extends baseController {
 	}
 
 	function login() {		
-		$this->registry->Template->logged_in = $this->registry->Account->login_check();
 		$this->registry->Template->js = array(
 			array("url" => "js/sha512.js"),
 			array("url" => "js/account_forms.js")
@@ -31,7 +30,6 @@ class accountController extends baseController {
 	}
 
 	function register() {
-		$this->registry->Template->logged_in = $this->registry->Account->login_check();
 		$this->registry->Template->js = array(
 			array("url" => "js/sha512.js"),
 			array("url" => "js/account_forms.js")
