@@ -11,7 +11,6 @@ class Template {
 	function __construct($registry) {
 		$this->registry = $registry;
 		Mustache_Autoloader::register();
-		$this->set_vars();
 	}
 	
 	public function __set($index, $value) {
@@ -38,6 +37,8 @@ class Template {
 		
 		$tpl = $m->loadTemplate($action);
 		
+		$this->set_vars();
+		
 		echo $tpl->render($this->vars);
 	}
 	
@@ -56,6 +57,7 @@ class Template {
 		if ($this->registry->Config->account->enable) {
 			$user = new StdClass();
 			$user->logged_in = $this->registry->Account->logged_in;
+			$user->info = $this->registry->Account->get_this_user_data("username");
 			$this->vars['user'] = $user;
 		}
 	}

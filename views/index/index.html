@@ -1,7 +1,14 @@
 {{> header}}
 <div class="container">
+	{{#user.logged_in}}
+	<h1>
+		Hello {{user.info.username}}.
+	</h1>
+	{{/user.logged_in}}
+	{{^user.logged_in}}
 	<h1>
 		Hello World
 	</h1>
+	{{/user.logged_in}}
 </div>
 {{> footer}}

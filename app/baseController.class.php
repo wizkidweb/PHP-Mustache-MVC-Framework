@@ -34,6 +34,10 @@ abstract class baseController {
 					case "getSession":
 						$this->ajax_return($_SESSION);
 					break;
+					case "registry":
+						$data = $_POST['data'];
+						$this->ajax_return($this->registry->$data['c']->$data['a']);
+					break;
 				}
 			}
 			switch ($_POST['action']) {

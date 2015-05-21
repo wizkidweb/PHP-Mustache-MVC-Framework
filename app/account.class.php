@@ -267,9 +267,9 @@ class Account {
 				$colstr .= $cols[$i];
 				if ($i !== count($cols)-1) $colstr .= ",";
 			}
-			$qry = $this->db->Query("SELECT ".$colstr." FROM members WHERE id = ?", "i", $user);
-			if ($qry) {
-				return $qry;
+			$qry = $this->db->Query("SELECT ".$colstr." FROM members WHERE id = ? LIMIT 1", "i", $user);
+			if (count($qry) === 1) {
+				return $qry[0];
 			} else {
 				return false;
 			}
