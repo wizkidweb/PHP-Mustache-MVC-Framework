@@ -1,3 +1,5 @@
+## WARNING: This project is unfinished
+
 #### v0.7 ALPHA
 This is an easy-to-use PHP MVC framework using the Mustache templating engine.  I created this framework to help me better create PHP web applications and dynamic websites in a quick and efficient manner.  I prefer it over other more powerful frameworks because it is simple, but not "magical" or too far away from "vanilla".
 
