@@ -1,7 +1,5 @@
 <?php
 
-include(__SITE_PATH . '/includes/lib/Mustache/Autoloader.php');
-
 class Template {
 	
 	private $registry;

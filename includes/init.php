@@ -31,6 +31,8 @@ if (!function_exists('classAutoLoader')) {
 
 spl_autoload_register('classAutoLoader');
 
+// Load Composer autoloader
+require __SITE_PATH . '/vendor/autoload.php';
 
 // Create new registry object
 $registry = new Registry;

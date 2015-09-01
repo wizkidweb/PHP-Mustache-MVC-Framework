@@ -7,6 +7,13 @@ Database and basic site configuration is in **app/config.class.php**
 
 Right now it's extremely basic, with no user account features or other general web-application features, but I will be adding them in due time.  Eventually, I will also make a Wiki so a full documentation can be made.
 
+## Installation
+To set up PMMVC, you must first install the needed dependencies with Composer.
+
+You can install composer here: https://getcomposer.org
+
+Just type `composer install` at the PMMVC root directory, and you'll be good to go!
+
 ## Adding Pages
 It's easy to add a page to your MVC website system.  Simply create a PHP document in the **controller** folder with the name of your page, appended with *Controller.class.php*.
 For example, if your page is called *about*, then the controller PHP file should be called `aboutController.class.php`.
@@ -56,7 +63,7 @@ The template files are located in the **views** folder.  Each template name that
 I won't describe in-depth all of the features of Mustache (see link above), but there are some added features from the PMMVC Framework.  One is global partials.  Each template can have as many partials as you want, but the partials located in **views/_global/partials/** can be accessed by any template.  By default, the globals are a header and footer that include the jQuery and Bootstrap libraries and stylesheets.
 	
 ### The Registry
-The Registry is a way for your MVC application to access many of the features of the PMMVC.  It can be accessed in your controllers with `$this->registry`.  Database access, templating systems, models, configuration, and controller information is stored here.  You can add and remove things from the Registry, which allows the rest of the application to access them.
+The Registry is a way for your MVC application to access many of the features of the PMMVC.  It can be accessed in your controllers with `$this->registry`.  Database access, templating systems, configuration, and controller information is stored here.  You can add and remove things from the Registry, which allows the rest of the application to access them.
 	
 ## JavaScript access with AJAX
 This framework works hand-in-hand with JavaScript and AJAX, with each controller natively supporting AJAX POST calls.  To receive an AJAX call, simply add the `onAjax()` method to your controller class:
