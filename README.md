@@ -66,7 +66,7 @@ You can disable JavaScript compression in `app/config.class.php` by setting `$th
 ### The Registry
 The Registry is a way for your MVC application to access many of the features of the PMMVC.  It can be accessed in your controllers with `$this->registry`.  Database access, templating systems, models, configuration, and controller information is stored here.  You can add and remove things from the Registry, which allows the rest of the application to access them.
 	
-## JavaScript access with AJAX
+### JavaScript access with AJAX
 This framework works hand-in-hand with JavaScript and AJAX, with each controller natively supporting AJAX POST calls.  To receive an AJAX call, simply add the `onAjax()` method to your controller class:
 
 ```php
