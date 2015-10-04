@@ -53,7 +53,7 @@ The template files are located in the **views** folder.  Each template name that
 
 I won't describe in-depth all of the features of Mustache (see link above), but there are some added features from the PMMVC Framework.  One is global partials.  Each template can have as many partials as you want, but the partials located in **views/_global/partials/** can be accessed by any template.  By default, the globals are a header and footer that include the jQuery and Bootstrap libraries and stylesheets.
 
-### SASS Support & CSS compression
+## SASS Support & CSS compression
 Using [scssphp](https://github.com/leafo/scssphp), PMMVC supports SCSS/SASS, and compiles and compresses all of your stylesheets in real-time for ease of development. It only does this while the `ENVIRONMENT` constant is set to `"development"`.
 
 You can disable CSS compression in `app/config.class.php` by setting `$this->template->compress_css` to `false`.
