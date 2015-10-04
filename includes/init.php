@@ -9,6 +9,7 @@ include __SITE_PATH . '/app/dbase.class.php';
 include __SITE_PATH . '/app/account.class.php';
 include __SITE_PATH . '/app/log.class.php';
 include __SITE_PATH . '/app/lang.class.php';
+include __SITE_PATH . '/app/compiler.class.php';
 
 function __autoload($class_name) {
 	$filename = strtolower($class_name) . '.class.php';
@@ -31,8 +32,8 @@ if (!function_exists('classAutoLoader')) {
 
 spl_autoload_register('classAutoLoader');
 
-// Load Composer autoloader
-require __SITE_PATH . '/vendor/autoload.php';
+// Initialize composer autoloader
+include __SITE_PATH . '/vendor/autoload.php';
 
 // Create new registry object
 $registry = new Registry;
@@ -58,6 +59,9 @@ if ($registry->Config->account->enable) {
 
 // Load the router
 $registry->Router = new Router($registry);
+
+// Load SCSS Compiler
+$registry->Compiler = new Compiler($registry);
 
 // Load the template engine
 $registry->Template = new Template($registry);

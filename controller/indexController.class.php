@@ -2,8 +2,13 @@
 class indexController extends baseController {
 	
 	public function index() {
-		$this->registry->Template->page_title = "Home";
-		$username = $this->registry->Account->get_this_user_data('username');
+		$this->registry->Template->css = [
+			["url" => "index.scss"]
+		];
+
+		$this->registry->Template->js = [
+			["url" => "index.js"]
+		];
 		
 		// Load the index template
 		$this->registry->Template->show('index');

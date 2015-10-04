@@ -1,5 +1,7 @@
 {
 	"require": {
-		"mustache/mustache": "~2.5"
+		"mustache/mustache": "~2.5",
+		"leafo/scssphp": "0.0.12",
+		"tedivm/jshrink": "~1.0"
 	}
 }

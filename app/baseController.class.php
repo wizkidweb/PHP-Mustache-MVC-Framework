@@ -9,18 +9,17 @@ abstract class baseController {
 		$this->registry = $registry;
 		
 		// If AJAX
-		if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || isset($_POST['ajax'])) {
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			$this->baseAjax();
-			$this->onAjax();
+			$this->onAjax($_SERVER["REQUEST_METHOD"]);
 			die();
-			//$this->ajax_return();
 		}
 	}
 	
 	/* All controllers must contain an index method */
 	abstract function index();
 	
-	function onAjax() {}
+	function onAjax($req) {}
 	
 	
 	/* Ajax Functions */
@@ -50,24 +49,27 @@ abstract class baseController {
 		}
 	}
 	
-	function ajax_return($x="", $console = true) {
-		if (ENVIRONMENT == "development") {
-			if (is_string($x)) {
-				$msg = array();
-				$msg[] = $x;
-			} else {
-				$msg = $x;
+	function ajax_return($x = null) {
+		$args = func_get_args();
+		if (count($args) > 1) {
+			$x = [$x];
+			for ($i = 1; $i < count($args); $i++) {
+				$x[] = $args[$i];
 			}
-			if ($console) $msg["php_console"] = $this->registry->Log->return_console();
-			if ($this->registry->Log->return_errors())
-				$msg["errors"] = $this->registry->Log->return_errors();
-			die(json_encode($msg));
 		} else {
-			if (is_string($x)) {
-				die(json_encode(array($x)));
+			$x = $args[0];
+		}
+
+		$js_console = $this->registry->Log->return_console();
+
+		if (is_string($x) || count($js_console) > 0) {
+			if (count($js_console) > 0) {
+				die(json_encode([$x]));
 			} else {
-				die(json_encode($x));
+				die(json_encode([$x, $js_console]));
 			}
+		} else {
+			die(json_encode($x));
 		}
 	}
 }

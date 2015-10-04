@@ -1,18 +1,9 @@
-## WARNING: This project is unfinished
-
-#### v0.7 ALPHA
+#### v0.8 ALPHA
 This is an easy-to-use PHP MVC framework using the Mustache templating engine.  I created this framework to help me better create PHP web applications and dynamic websites in a quick and efficient manner.  I prefer it over other more powerful frameworks because it is simple, but not "magical" or too far away from "vanilla".
 
 Database and basic site configuration is in **app/config.class.php**
 
 Right now it's extremely basic, with no user account features or other general web-application features, but I will be adding them in due time.  Eventually, I will also make a Wiki so a full documentation can be made.
-
-## Installation
-To set up PMMVC, you must first install the needed dependencies with Composer.
-
-You can install composer here: https://getcomposer.org
-
-Just type `composer install` at the PMMVC root directory, and you'll be good to go!
 
 ## Adding Pages
 It's easy to add a page to your MVC website system.  Simply create a PHP document in the **controller** folder with the name of your page, appended with *Controller.class.php*.
@@ -56,14 +47,24 @@ class aboutController extends baseController {
 ```
 
 ### Mustache Templating Engine
-This framework uses the Mustache templating engine.  To learn more about it, go to this link: https://mustache.github.io/mustache.5.html
+This framework uses the [Mustache](https://mustache.github.io/mustache.5.html) templating engine.
 
 The template files are located in the **views** folder.  Each template name that can be called from the `show()` method described above has its own folder.  For example, the `index` template is located in the **views/index/** folder.  To create a new template, simply add a folder with the name of your template, and place a file named `index.html` inside.  Call the folder name with the `show()` function, and the Mustache templating engine will parse your template.
 
 I won't describe in-depth all of the features of Mustache (see link above), but there are some added features from the PMMVC Framework.  One is global partials.  Each template can have as many partials as you want, but the partials located in **views/_global/partials/** can be accessed by any template.  By default, the globals are a header and footer that include the jQuery and Bootstrap libraries and stylesheets.
+
+### SASS Support & CSS compression
+Using [scssphp](https://github.com/leafo/scssphp), PMMVC supports SCSS/SASS, and compiles and compresses all of your stylesheets in real-time for ease of development. It only does this while the `ENVIRONMENT` constant is set to `"development"`.
+
+You can disable CSS compression in `app/config.class.php` by setting `$this->template->compress_css` to `false`.
+
+## JavaScript compression
+PMMVC also supports JavaScript compression.  When including a JavaScript file in the controller, if `ENVIRONMENT` is set to `development`, PMMVC will compress your javascript and start using it right away.
+
+You can disable JavaScript compression in `app/config.class.php` by setting `$this->template->compress_js` to `false`.
 	
 ### The Registry
-The Registry is a way for your MVC application to access many of the features of the PMMVC.  It can be accessed in your controllers with `$this->registry`.  Database access, templating systems, configuration, and controller information is stored here.  You can add and remove things from the Registry, which allows the rest of the application to access them.
+The Registry is a way for your MVC application to access many of the features of the PMMVC.  It can be accessed in your controllers with `$this->registry`.  Database access, templating systems, models, configuration, and controller information is stored here.  You can add and remove things from the Registry, which allows the rest of the application to access them.
 	
 ## JavaScript access with AJAX
 This framework works hand-in-hand with JavaScript and AJAX, with each controller natively supporting AJAX POST calls.  To receive an AJAX call, simply add the `onAjax()` method to your controller class:
@@ -143,6 +144,3 @@ If the above code is your language file, you can access the `HELLO` property wit
 ```php
 $this->registry->Lang->HELLO;
 ```
-
-## Account Management
-This framework includes MySQL user account management.

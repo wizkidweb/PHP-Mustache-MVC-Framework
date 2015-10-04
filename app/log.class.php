@@ -44,6 +44,8 @@ class Log {
 	public function return_console() {
 		if (ENVIRONMENT == 'development') {
 			return $this->jsconsole;
+		} else {
+			return [];
 		}
 	}
 	

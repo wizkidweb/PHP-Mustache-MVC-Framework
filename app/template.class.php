@@ -5,6 +5,7 @@ class Template {
 	private $registry;
 	
 	private $vars = array();
+	private $view;
 	
 	function __construct($registry) {
 		$this->registry = $registry;
@@ -15,8 +16,9 @@ class Template {
 		$this->vars[$index] = $value;
 	}
 	
-	function show($name,$action = 'index') {
+	function show($name, $action = 'index') {
 		//die("<pre>".print_r($this->vars,true)."</pre>");
+		$this->view = $name;
 		
 		$filepath = __SITE_PATH . '/views/' . $name . '/' . $action . '.html';
 		$dirpath = __SITE_PATH . '/views/' . $name;
@@ -37,20 +39,36 @@ class Template {
 		
 		$this->set_vars();
 		
-		echo $tpl->render($this->vars);
+		die($tpl->render($this->vars));
 	}
 	
 	private function set_vars() {
 		// Set config vars
-		$this->vars['config'] = $this->registry->Config;
+		$this->vars['site_title'] = $this->registry->Config->site->title;
+
 		// Set basic globals
 		$this->vars['year'] = date("Y");
+
 		// Set directory options
 		$dir = new StdClass();
 		$dir->views = "/views";
-		$dir->view = $dir->views . "/" . $this->registry->Router->controller;
-		//die("<pre>".print_r($this->registry->Router,true)."</pre>");
+		$dir->view = $dir->views . "/" . $this->view;
 		$this->vars['dir'] = $dir;
+
+		// Loop through css for SCSS and CSS compression
+		if (array_key_exists('css', $this->vars)) {
+			for ($i = 0; $i < count($this->vars['css']); $i++) {
+				$this->vars['css'][$i]['url'] = $this->registry->Compiler->compile_scss($dir->view, $dir->view . "/" . $this->vars['css'][$i]['url']);
+			}
+		}
+
+		// Loop through js for compression
+		if (array_key_exists('js', $this->vars)) {
+			for ($i = 0; $i < count($this->vars['js']); $i++) {
+				$this->vars['js'][$i]['url'] = $this->registry->Compiler->compile_js($dir->view, $dir->view . "/" . $this->vars['js'][$i]['url']);
+			}
+		}
+		
 		// Set account globals
 		if ($this->registry->Config->account->enable) {
 			$user = new StdClass();
