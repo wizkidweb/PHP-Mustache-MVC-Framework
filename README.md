@@ -29,7 +29,7 @@ class aboutController extends baseController {
 }
 ```
 
-Congratulations!  You've made a page using the PMMVC Engine!  It doesn't do anything though.  Let's give it something to do.
+Congratulations!  You've made a page using the *PM* Engine!  It doesn't do anything though.  Let's give it something to do.
 You can set template variables for the Mustache engine in the index method using `$this->registry->Template->foo = "bar"`.  Then initialize the chosen template with `$this->registry->Template->show('template_name')`.  That's all it takes!
 
 ```php
@@ -51,20 +51,20 @@ This framework uses the [Mustache](https://mustache.github.io/mustache.5.html) t
 
 The template files are located in the **views** folder.  Each template name that can be called from the `show()` method described above has its own folder.  For example, the `index` template is located in the **views/index/** folder.  To create a new template, simply add a folder with the name of your template, and place a file named `index.html` inside.  Call the folder name with the `show()` function, and the Mustache templating engine will parse your template.
 
-I won't describe in-depth all of the features of Mustache (see link above), but there are some added features from the PMMVC Framework.  One is global partials.  Each template can have as many partials as you want, but the partials located in **views/_global/partials/** can be accessed by any template.  By default, the globals are a header and footer that include the jQuery and Bootstrap libraries and stylesheets.
+I won't describe in-depth all of the features of Mustache (see link above), but there are some added features from the *PM* Framework.  One is global partials.  Each template can have as many partials as you want, but the partials located in **views/_global/partials/** can be accessed by any template.  By default, the globals are a header and footer that include the jQuery and Bootstrap libraries and stylesheets.
 
 ## SASS Support & CSS compression
-Using [scssphp](https://github.com/leafo/scssphp), PMMVC supports SCSS/SASS, and compiles and compresses all of your stylesheets in real-time for ease of development. It only does this while the `ENVIRONMENT` constant is set to `"development"`.
+Using [scssphp](https://github.com/leafo/scssphp), *PM* supports SCSS/SASS, and compiles and compresses all of your stylesheets in real-time for ease of development. It only does this while the `ENVIRONMENT` constant is set to `"development"`.
 
 You can disable CSS compression in `app/config.class.php` by setting `$this->template->compress_css` to `false`.
 
 ### JavaScript compression
-PMMVC also supports JavaScript compression.  When including a JavaScript file in the controller, if `ENVIRONMENT` is set to `development`, PMMVC will compress your javascript and start using it right away.
+*PM* also supports JavaScript compression.  When including a JavaScript file in the controller, if `ENVIRONMENT` is set to `development`, *PM* will compress your javascript and start using it right away.
 
 You can disable JavaScript compression in `app/config.class.php` by setting `$this->template->compress_js` to `false`.
 	
 ### The Registry
-The Registry is a way for your MVC application to access many of the features of the PMMVC.  It can be accessed in your controllers with `$this->registry`.  Database access, templating systems, models, configuration, and controller information is stored here.  You can add and remove things from the Registry, which allows the rest of the application to access them.
+The Registry is a way for your MVC application to access many of the features of the *PM*.  It can be accessed in your controllers with `$this->registry`.  Database access, templating systems, models, configuration, and controller information is stored here.  You can add and remove things from the Registry, which allows the rest of the application to access them.
 	
 ## JavaScript access with AJAX
 This framework works hand-in-hand with JavaScript and AJAX, with each controller natively supporting AJAX POST calls.  To receive an AJAX call, simply add the `onAjax()` method to your controller class:
@@ -83,7 +83,7 @@ class aboutController extends baseController {
 You can then access the `$_POST` variables associated with your AJAX call.  The `index()` method will not be called if an AJAX call is detected.
 
 ## Database Access
-Another class located on the Registry is the `DBase` class.  This provides a safe and secure way to connect to the PMMVC's MySQL database.  You can access it using `$this->registry->DBase`.  While PMMVC does not require a MySQL database, it is recommended for more advanced web applications.
+Another class located on the Registry is the `DBase` class.  This provides a safe and secure way to connect to the *PM*'s MySQL database.  You can access it using `$this->registry->DBase`.  While *PM* does not require a MySQL database, it is recommended for more advanced web applications.
 
 The `DBase` class has two methods: `Query()` and `NonQuery()`.  Use `Query()` if you want the database to return a value, and `NonQuery()` if you are simply sending data.  Each will return `true` or `false`, depending on the success of the Query (or non-query).
 
@@ -97,7 +97,7 @@ $qry = $this->registry->DBase->NonQuery("INSERT INTO users ('email') VALUES (?)"
 With the `Query()` method, an array is returned with the values requested.
 
 ## Models
-You can add your own classes as models to interpret data from the database or add additional functionality.  To do so, simply add your model class to the `model` folder, and append it with `.class.php`.  For example, if you have a model class called `myModel`, the file would be `myModel.class.php`.  When you want to use the class in your controller, it will be autoloaded when you instantiate it.  It is recommended to include the registry in your model so you can access the various systems of PMMVC.  Below is an example of doing so:
+You can add your own classes as models to interpret data from the database or add additional functionality.  To do so, simply add your model class to the `model` folder, and append it with `.class.php`.  For example, if you have a model class called `myModel`, the file would be `myModel.class.php`.  When you want to use the class in your controller, it will be autoloaded when you instantiate it.  It is recommended to include the registry in your model so you can access the various systems of *PM*.  Below is an example of doing so:
 
 ####myModel.class.php
 ```php
@@ -118,7 +118,7 @@ $myModel = new myModel($this->registry);
 ```
 
 ## Logging System
-The PMMVC framework includes a custom logging system, which allows you to log messages and errors in a .txt file or on the MySQL database (it will default to the MySQL database if you have it enabled).  You can log a message using the following command:
+The *PM* framework includes a custom logging system, which allows you to log messages and errors in a .txt file or on the MySQL database (it will default to the MySQL database if you have it enabled).  You can log a message using the following command:
 
 ```php
 $this->registry->Log->add("Lorem Ipsum Dolor Sit Amet");
@@ -131,7 +131,7 @@ $this->registry->Log->console("Lorem Ipsum Dolor Sit Amet");
 ```
 
 ## Language System
-PMMVC incorporates a language switching system, where repeatable phrases are placed into a language file located at `app/lang/{code}.lang.json`, where `{code}` is your language code (it defaults to `en_us`).
+*PM* incorporates a language switching system, where repeatable phrases are placed into a language file located at `app/lang/{code}.lang.json`, where `{code}` is your language code (it defaults to `en_us`).
 
 ```json
 {
