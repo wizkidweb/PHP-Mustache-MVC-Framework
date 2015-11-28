@@ -1,3 +1,4 @@
+![PM MVC Framework](http://www.wizkidweb.com/ext/pmmvc_logo.jpg)
 #### v0.8 ALPHA
 This is an easy-to-use PHP MVC framework using the Mustache templating engine. We created this framework to help better create PHP web applications and dynamic websites in a quick and efficient manner. It's preferred over other more powerful frameworks because it is simple, but not "magical" or too far away from "vanilla".
 
