@@ -71,20 +71,19 @@ You can disable JavaScript compression in `app/config.class.php` by setting `$th
 The Registry is a way for your MVC application to access many of the features of the *PM*.  It can be accessed in your controllers with `$this->registry`.  Database access, templating systems, models, configuration, and controller information is stored here.  You can add and remove things from the Registry, which allows the rest of the application to access them.
 	
 ## JavaScript access with AJAX
-This framework works hand-in-hand with JavaScript and AJAX, with each controller natively supporting AJAX POST calls.  To receive an AJAX call, simply add the `onAjax()` method to your controller class:
+This framework works hand-in-hand with JavaScript and AJAX, with each controller natively supporting AJAX `GET` and `POST` calls.  To receive an AJAX call, simply add the `onAjax()` method to your controller class:
 
 ```php
 class aboutController extends baseController {
 	
 	// public function index() goes here
 	
-	function onAjax() {
+	function onAjax($req) {
 		// Your code here
 	}
 }
 ```
-
-You can then access the `$_POST` variables associated with your AJAX call.  The `index()` method will not be called if an AJAX call is detected.
+The type of request is returned in the `$req` parameter, and it's up to you how you react to the call.  You can then access the `$_GET` or `$_POST` variables associated with your AJAX call.  The `index()` method will not be called if an AJAX call is detected.
 
 ## Database Access
 Another class located on the Registry is the `DBase` class.  This provides a safe and secure way to connect to the *PM*'s MySQL database.  You can access it using `$this->registry->DBase`.  While *PM* does not require a MySQL database, it is recommended for more advanced web applications.
