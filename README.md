@@ -4,7 +4,7 @@ This is an easy-to-use PHP MVC framework using the Mustache templating engine. W
 
 Database and basic site configuration is in **app/config.class.php**
 
-Right now it's extremely basic, with no user account features or other general web-application features, but I will be adding them in due time.  Eventually, I will also make a Wiki so a full documentation can be made.
+Right now it's extremely basic, with no user account features or other advanced web-application features, but I will be adding them in due time.  Eventually, I will also make a Wiki so a full documentation can be made.
 
 ## Setting Up
 The *PM* Framework requires [Composer](https://getcomposer.org/) to run.  Once Composer is installed in your PHP environment, navigate to the *PMMVC-Framework* directory and enter `composer install` into the command line of your choice.  Once the packages are installed, you're ready to start using the *PM* Framework!
